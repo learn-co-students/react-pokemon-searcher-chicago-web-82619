@@ -31,7 +31,6 @@ class PokemonPage extends React.Component {
     this.setState({ pokemons: pokemonsData.data })
   }
 
-  
   handleAddNewPoke = (pokemon) => {
     axios.post('http://localhost:3000/pokemon', pokemon)
     .then(res => {if (res.status === 201) this.fetchPokemons()})
@@ -54,14 +53,13 @@ class PokemonPage extends React.Component {
     let displayedPokemons = [...this.state.pokemons]
 
     displayedPokemons.map(pokemon => {
-      const pokemonStats= [...pokemon.stats] 
-      const hp = pokemonStats.find(stat => stat.name === 'hp')
+      const hp = pokemon.stats.find(stat => stat.name === 'hp')
       pokemon.hp = hp.value
       return null
     })
 
     displayedPokemons = displayedPokemons.filter(pokemon => {
-      if(pokemon.name.search(this.state.searchTerm) > -1) return pokemon
+      if(pokemon.name.search(this.state.searchTerm) > -1) {return pokemon}
       return null
     })
 
@@ -70,8 +68,7 @@ class PokemonPage extends React.Component {
     } else if (this.state.filterBy === "hp") {
       displayedPokemons = displayedPokemons.sort((a,b) => a.hp - b.hp)
     }
-
-    console.log(this.state.filterBy)
+    
     return (
       <div>
         <h1>Pokemon Searcher</h1>
